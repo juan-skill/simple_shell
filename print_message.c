@@ -22,7 +22,7 @@ void not_found(char *command, int nth_command, list_t *env)
 	/* convert cmd line num to string to write */
 	num = itostr(nth_command);
 
-	
+
 	count = _strlen(num);
 	write(STDOUT_FILENO, num, count);
 	free(num);
@@ -41,7 +41,7 @@ void not_found(char *command, int nth_command, list_t *env)
 /**
  * print_list - _print linked list env
  *
- * @h: linked list to print
+ * @head: linked list to print
  * Return: length of linked list
  */
 size_t print_list(list_t *head)

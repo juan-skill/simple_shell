@@ -8,15 +8,15 @@
  */
 unsigned int calculate_len(int n)
 {
- 	unsigned int count = 0;
- 	int num = n;
+	unsigned int count = 0;
+	int num = n;
 
 
- 	while (num > 9 || num < -9)
- 	{
+	while (num > 9 || num < -9)
+	{
 		num /= 10;
- 		count++;
- 	}
+		count++;
+	}
 
 	return (count);
 }
@@ -39,17 +39,14 @@ char *itostr(int number)
 
 	if (number < 0)
 		sign = 1;
-
 	line = malloc((calculate_len(digits) + 2 + sign) * sizeof(char));
 		if (line == NULL)
 			return (NULL);
-
 	if (number < 0)
 	{
 		line[len] = '-';
 		len++;
 	}
-
 	for (x = 0; digits > 9 || digits < -9; x++)
 	{
 		digits /= 10;
@@ -71,6 +68,5 @@ char *itostr(int number)
 		base_ten /= 10;
 	}
 	line[len] = '\0';
-
 	return (line);
 }
