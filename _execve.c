@@ -27,7 +27,7 @@ int _execve(char **token, int nth_command)
 		pid = fork(); /* fork and execute executable command */
 		if (pid == 0) /* if child process, execute */
 		{
-			ret = execve(executable_path, token, NULL);
+			ret = execve(executable_path, token, environ);
 			if (ret == -1)
 			{
 				not_found(first_word, nth_command, env);

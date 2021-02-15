@@ -45,7 +45,7 @@ list_t *add_end_node(list_t **head, char *str)
  */
 void free_linked_list(list_t *list)
 {
-	list_t *holder;
+	list_t *holder = NULL;
 
 	while (list != NULL)
 	{
@@ -53,7 +53,10 @@ void free_linked_list(list_t *list)
 		list = list->next;
 		free(holder->var);
 		free(holder);
+		holder = NULL;
 	}
+
+	list = NULL;
 }
 
 
@@ -68,7 +71,9 @@ void free_double_ptr(char **str)
 	while (str[i] != NULL)
 	{
 		free(str[i]);
+		str[i] = NULL;
 		i++;
 	}
 	free(str);
+	str = NULL;
 }

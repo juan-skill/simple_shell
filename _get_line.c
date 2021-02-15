@@ -9,41 +9,35 @@
  */
 size_t get_line(char **command, int flag)
 {
-	int fd, i, indicator = 0;
-	ssize_t nread_bytes = 0;
-	char line[MAXLINE];
+	size_t i = 0, size = 0;
+	int new_line = 0, n = 0, t = 0;
+	char buff[1024] = {0};
+	(void) flag;
 
-	indicator = flag;
-
-	fd = open("/dev/tty", O_RDWR);
-	if (fd < 0)
+	while (new_line == 0 && (i = read(STDIN_FILENO, buff, 1024 - 1)) > 0)
 	{
-		perror("r1");
-		exit(1);
-	}
-
-	nread_bytes = read(fd, line, MAXLINE - 1);
-
-	line[nread_bytes] = '\0';
-
-	i = 0;
-	while (line[i] != '\0')
-	{
-		if (line[i] == '\n')
+		n = 0;
+		while (buff[n] != '\0')
 		{
-			indicator = 1;
+			if (buff[n] == '\n')
+				new_line = 1;
+			n++;
 		}
-		i++;
+
+		if (t == 0)
+		{
+			*command = _strdup(buff);
+			size = i + 1, t = 1;
+		}
+		else
+		{
+			*command = _strcat(*command, buff);
+			size += i;
+		}
 	}
 
-	if (indicator == 1)
-	{
-		*command = _strdup(line);
-	}
-	else
-	{
-		nread_bytes = 0;
-	}
+	if ((int)i == -1)
+		return (-1);
 
-	return (nread_bytes);
+	return (size);
 }
