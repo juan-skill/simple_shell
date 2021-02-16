@@ -41,41 +41,41 @@ int start_mode_interactive(int flag)
 {
 	size_t len_command = 0;
 	int nth_command = 0, status = 0;
-	char *command, *command_formatted, **token;
+	char *command = NULL, *command_formatted = NULL, **token = NULL;
 
 	env = env_linked_list(environ);
 
 	signal(SIGINT, ctrl_c);
 	for (;;)
-	{
-		command = NULL;
-		token = NULL;
-		len_command = 0; /* reset vars each time loop runs */
+	{/* reset vars each time loop runs */
+		command = NULL, token = NULL, len_command = 0;
 
-		write(STDOUT_FILENO, "$ ", 2);
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, "$ ", 2);
 
 		len_command = get_line(&command, flag);
 
-		nth_command++;
-		end_of_trasmission(len_command, command);
+		nth_command++, end_of_trasmission(len_command, command);
 
 		command_formatted = command;
 		command = formatt_input(command_formatted);
 
 		if (command[0] == '\0')
-		{
-			free(command_formatted);
+		{	free(command_formatted);
 			continue;
 		}
 
 		token = _str_tok(command, ' ');/*token user cmd*/
-
 		if (command_formatted != NULL)
 			free(command_formatted);
 
 		if (built_in(token, nth_command, NULL) != 1)
 			status = _execve(token, nth_command);
-	}
 
+		if (!isatty(STDIN_FILENO))
+		{	free_linked_list(env);
+			break;
+		}
+	}
 	return (status);
 }

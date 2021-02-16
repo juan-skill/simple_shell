@@ -10,7 +10,7 @@
 int _execve(char **token, int nth_command)
 {
 	char *executable_path, *first_word;
-	int status = 0, t = 0, ret;
+	int status = 0, t = 0, ret = 0, statu = 0;
 	pid_t pid;
 
 	first_word = token[0];
@@ -26,8 +26,7 @@ int _execve(char **token, int nth_command)
 	{
 		pid = fork(); /* fork and execute executable command */
 		if (pid == 0) /* if child process, execute */
-		{
-			ret = execve(executable_path, token, environ);
+		{	ret = execve(executable_path, token, environ);
 			if (ret == -1)
 			{
 				not_found(first_word, nth_command, env);
@@ -36,11 +35,12 @@ int _execve(char **token, int nth_command)
 				_exit(0);
 			}
 		} else /* if parent, wait for child then free all */
-		{
-			wait(&status);
+		{	wait(&status);
 			free_double_ptr(token);
 			if (t == 0)
 				free(executable_path);
+			if (WIFEXITED(status))
+				statu = WEXITSTATUS(status);
 		}
 	} else/* if it is not an executable, free */
 	{
@@ -48,5 +48,5 @@ int _execve(char **token, int nth_command)
 		free_double_ptr(token);
 		return (127);/*127 return the system doesn't understand comman*/
 	}
-	return (0);
+	return (statu);
 }

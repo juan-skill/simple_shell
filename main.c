@@ -8,13 +8,17 @@
 int main(void)
 {
 	int fd = 0;
+	int status = 0;
 
-	/* check if in interactive shell or non_interactive*/
+	/* check if in interactive shell or non_interactive */
 	fd = isatty(STDIN_FILENO);
 	if (fd)
-		start_mode_interactive(0);
+		status = start_mode_interactive(0);
 	else
-		 start_mode_noninteractive(1);
+		status = start_mode_noninteractive(1);
+
+	if (status != EXIT_SUCCESS)
+		return (status);
 
 	return (EXIT_SUCCESS);
 }

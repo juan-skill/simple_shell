@@ -33,7 +33,7 @@ extern char **environ;
 
 /* function prototypes */
 int start_mode_interactive(int);
-void start_mode_noninteractive(int);
+int start_mode_noninteractive(int);
 
 size_t get_line(char **str, int);
 char *formatt_input(char *command);
