@@ -12,6 +12,7 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <signal.h>
+#include <errno.h>
 
 
 /**
@@ -71,6 +72,7 @@ void free_linked_list(list_t *list);
 
 /*error message */
 void not_found(char *str, int num, list_t *env);
+void illegal_number(char *str, int c_n, list_t *env);
 
 
 

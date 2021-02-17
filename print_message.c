@@ -72,3 +72,40 @@ size_t print_list(list_t *head)
 	}
 	return (count);
 }
+
+
+/**
+ * illegal_number - write error message
+ * ("sh: 3: exit: Illegal number abc (or -1)")
+ *
+ * @arg: argument exit code
+ * @nth_command: number of command typed
+ * @env: bring in environmental variables linked list
+ *
+ * Return: void
+ */
+void illegal_number(char *arg, int nth_command, list_t *env)
+{
+	int count = 0;
+	char *shell = NULL, *num = NULL;
+
+	shell = get_env("_", env);
+	while (shell[count] != '\0')
+		count++;
+	write(STDERR_FILENO, shell, count);
+	free(shell);
+	write(STDERR_FILENO, ": ", 2);
+	num = itostr(nth_command);
+	count = 0;
+	while (num[count] != '\0')
+		count++;
+	write(STDERR_FILENO, num, count);
+	free(num);
+	write(STDERR_FILENO, ": ", 2);
+	write(STDERR_FILENO, "exit: Illegal number: ", 22);
+	count = 0;
+	while (arg[count] != '\0')
+		count++;
+	write(STDERR_FILENO, arg, count);
+	write(STDERR_FILENO, "\n", 1);
+}

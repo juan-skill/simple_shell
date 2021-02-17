@@ -25,7 +25,10 @@ int __exit(char **full_command, int nth_command, char **command)
 			if (first_command[i] >= '0' && first_command[i] <= '9') /* calculate num */
 				num_exit = num_exit * 10 + (first_command[i] - '0');
 			if (first_command[i] > '9' || first_command[i] < '0')
+			{
 				num_exit = -1;
+				break;
+			}
 			i++;
 		}
 
@@ -34,6 +37,7 @@ int __exit(char **full_command, int nth_command, char **command)
 	if (num_exit == -1) /* if value given after exit is invalid, perror */
 	{
 		/* print error msg */
+		illegal_number(full_command[1], nth_command, env);
 		free_double_ptr(full_command);
 		return (2);
 	}

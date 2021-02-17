@@ -67,7 +67,7 @@ int start_mode_interactive(int flag)
 
 		token = _str_tok(command, ' ');/*token user cmd*/
 		if (command_formatted != NULL)
-			free(command_formatted);
+			free(command_formatted), command = NULL, command_formatted = NULL;
 
 		if (built_in(token, nth_command, NULL) != 1)
 			status = _execve(token, nth_command);
